@@ -1,0 +1,226 @@
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+    position: relative;
+    padding: 1rem;
+}
+
+.gameArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.scoreBoard {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.scoreItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+.canvas {
+    position: relative;
+    width: 600px;
+    height: 300px;
+    background: linear-gradient(to bottom, #87ceeb 0%, #e0f2fe 100%);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: #10b981;
+    border-top: 3px solid #059669;
+}
+
+.player {
+    position: absolute;
+    left: 50px;
+    width: 30px;
+    height: 40px;
+    background: #f59e0b;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    will-change: bottom;
+}
+
+.player::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background: #fbbf24;
+    border-radius: 50%;
+}
+
+.obstacle {
+    position: absolute;
+    bottom: 100px;
+    background: #dc2626;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    will-change: left;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.controls p {
+    color: white;
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+.controls kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.jumpButton {
+    padding: 0.6rem 2rem;
+    background: white;
+    color: #06b6d4;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.jumpButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.jumpButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.gameOverOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s;
+    z-index: 100;
+}
+
+.gameOverCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    animation: slideUp 0.3s;
+}
+
+.gameOverCard h2 {
+    font-size: 2rem;
+    margin: 0 0 1rem;
+    color: #1e293b;
+}
+
+.finalScore {
+    margin-bottom: 1.5rem;
+}
+
+.finalScore p {
+    margin: 0.4rem 0;
+    font-size: 1rem;
+    color: #475569;
+}
+
+.finalScore strong {
+    color: #06b6d4;
+    font-size: 1.25rem;
+}
+
+.restartButton {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(to right, #06b6d4, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.restartButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

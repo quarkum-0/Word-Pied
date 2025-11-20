@@ -1,99 +1,93 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-    color: #333;
-    line-height: 1.6;
-    padding: 0 10px;
-    transition: background 0.3s, color 0.3s;
-  }
-  
-  h1 {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 3rem;
-    color: #2c3e50;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
-    animation: fadeIn 1s ease-out;
-  }
-  
-  a {
-    color: #007bff;
-    text-decoration: none;
-    transition: color 0.3s, transform 0.3s;
-  }
-  
-  a:hover {
-    color: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  /* Container for the writing boxes */
-  .writing-boxes-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Center align the boxes */
-    padding: 20px; /* Padding around the grid */
-    gap: 20px; /* Space between boxes */
-  }
-  
-  /* Individual writing box container */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  line-height: 1.6;
+  padding: 0 10px;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 3rem;
+  color: #2c3e50;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 1s ease-out;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+a:hover {
+  color: #0056b3;
+  transform: scale(1.05);
+}
+
+.writing-boxes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.writing-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 240px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.box-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
+  color: #34495e;
+  font-size: 1rem;
+}
+
+.writing-box {
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.writing-box:focus {
+  border-color: #66afe9;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 112, 243, 0.2);
+}
+
+@media (max-width: 600px) {
   .writing-box-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Full width on small screens */
-    max-width: 240px; /* Maximum width for larger screens */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border-radius: 8px; /* Rounded corners */
-    background-color: #fff; /* White background for the container */
-    padding: 10px; /* Padding inside the container */
+    width: 100%;
+    max-width: none;
   }
-  
-  /* Label for each writing box */
-  .box-label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block; /* Ensures label is on its own line */
-    text-align: center; /* Center label text */
-    color: #34495e; /* Darker color for label */
-    font-size: 1rem; /* Font size for label */
-  }
-  
-  /* Textarea styles */
+
   .writing-box {
-    width: 100%; /* Full width of the container */
-    height: 120px; /* Fixed height for the textarea */
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px; /* Font size for the input text */
-    resize: none; /* Disable resizing */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
-    background-color: #fff; /* White background for the textarea */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    height: 100px;
   }
-  
-  .writing-box:focus {
-    border-color: #66afe9; /* Change border color on focus */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 2px 8px rgba(0, 112, 243, 0.2); /* Add subtle shadow on focus */
-  }
-  
-  /* Media query for responsive design */
-  @media (max-width: 600px) {
-    .writing-box-container {
-      width: 100%; /* Full width on small screens */
-      max-width: none; /* Remove max-width for small screens */
-    }
-  
-    .writing-box {
-      height: 100px; /* Adjust height for smaller screens */
-    }
-  }
-  
+}

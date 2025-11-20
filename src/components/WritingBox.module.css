@@ -1,54 +1,66 @@
-.container {
-  position: relative;
-  height: 280px; /* Fixed height for all boxes */
-}
-
 .editorContainer {
-  height: 180px;
-  overflow-y: auto;
-}
-
-.contentPreview {
-  height: 180px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
 .writingBox {
-  border: 1px solid #d1d1d1;
-  border-radius: 8px;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: #f9f9f9;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  white-space: pre-wrap;
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 100%;
 }
 
-/* Dark mode adjustments */
-.dark .writingBox {
-  background-color: #2d2d2d;
-  border-color: #404040;
+.contentPreview {
+  height: 100%;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-y: auto;
+}
+
+.contentPreview a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.contentPreview img {
+  max-width: 100%;
+  height: auto;
+}
+
+.contentPreview pre {
+  background-color: #f3f4f6;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  overflow-x: auto;
 }
 
 .scrollStyle::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 .scrollStyle::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+  background: transparent;
 }
 
 .scrollStyle::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
-.dark .scrollStyle::-webkit-scrollbar-track {
-  background: #333;
+.scrollStyle::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-.dark .scrollStyle::-webkit-scrollbar-thumb {
-  background: #666;
+:global(.dark) .contentPreview pre {
+  background-color: #374151;
+}
+
+:global(.dark) .scrollStyle::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+:global(.dark) .scrollStyle::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }

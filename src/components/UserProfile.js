@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FiUser, FiSave, FiEdit, FiX } from 'react-icons/fi';
+import { FiUser, FiSave, FiX } from 'react-icons/fi';
+import styles from './UserProfile.module.css';
 
 const UserProfile = () => {
   const [username, setUsername] = useState('Anonymous');
@@ -24,46 +25,47 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className={styles.profileWrapper}>
       <button
         onClick={() => setShowPopup(!showPopup)}
-        className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all"
+        className={styles.profileButton}
         title="User Profile"
       >
-        <FiUser size={18} />
-        <span className="text-sm font-medium">{username}</span>
+        <FiUser size={20} />
+        <span>{username}</span>
       </button>
 
       {showPopup && (
-        <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-medium">Set Your Display Name</h3>
-            <button onClick={() => setShowPopup(false)} className="text-gray-500">
-              <FiX size={18} />
+        <div className={styles.popup}>
+          <div className={styles.popupHeader}>
+            <h3 className={styles.popupTitle}>Display Name</h3>
+            <button onClick={() => setShowPopup(false)} className={styles.closeButton}>
+              <FiX size={20} />
             </button>
           </div>
-          
-          <div className="flex items-center gap-2">
+
+          <div className={styles.inputGroup}>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              className="w-full px-3 py-2 text-sm border rounded-lg dark:border-gray-600 dark:bg-gray-700"
+              placeholder="Enter name"
+              className={styles.input}
               maxLength={20}
               autoFocus
+              onKeyDown={(e) => e.key === 'Enter' && handleSaveUsername()}
             />
             <button
               onClick={handleSaveUsername}
-              className="p-2 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
-              title="Save username"
+              className={styles.saveButton}
+              title="Save"
             >
-              <FiSave size={16} />
+              <FiSave size={18} />
             </button>
           </div>
-          
-          <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-            This name will appear on your edits. It's stored locally in your browser.
+
+          <p className={styles.helperText}>
+            This name will appear on your edits. It is stored locally in your browser.
           </p>
         </div>
       )}

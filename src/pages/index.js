@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import WritingBox from '../components/WritingBox';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Home.module.css';
-import introJs from 'intro.js';
-import 'intro.js/introjs.css';
 import UserProfile from '../components/UserProfile';
+import { useTheme } from '../context/ThemeContext';
+import WritingEditor from '../components/WritingEditor';
+import GameModal from '../components/GameModal';
+import { FiHelpCircle, FiX, FiSun, FiMoon, FiPlay, FiPause, FiZap } from 'react-icons/fi';
 
 const audioFiles = [
   '/assets/Time.mp3',
@@ -25,24 +26,46 @@ const audioFiles = [
   '/assets/Upstairs.mp3',
   '/assets/Voicemail.mp3',
   '/assets/What Do You Mean.mp3',
-  '/assets/Nothing but Trouble - Instagram Models.mp3',
+  '/assets/Nothing but Trouble-Instagram Models.mp3',
 ];
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [shuffledAudioFiles, setShuffledAudioFiles] = useState([]);
+  const [chaosMode, setChaosMode] = useState(false);
+  const [showGames, setShowGames] = useState(false);
   const audioRef = useRef(null);
+  const { currentTheme, changeTheme } = useTheme();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setDarkMode(isDark);
+      if (isDark) document.body.classList.add('dark-mode');
+    }
+  }, []);
+
+  useEffect(() => {
+    setShuffledAudioFiles(shuffleArray([...audioFiles]));
+  }, []);
 
   const shuffleArray = (array) => {
-    return array.sort(() => Math.random() - 0.5);
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
   };
 
   const toggleDarkMode = () => {
-    document.body.classList.toggle('dark-mode');
-    setDarkMode((prev) => !prev);
+    const newTheme = darkMode ? 'light' : 'dark';
+    changeTheme(newTheme);
+    setDarkMode(!darkMode);
   };
-  
+
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add('dark-mode');
@@ -57,68 +80,35 @@ export default function Home() {
       setMusicPlaying(false);
     } else {
       if (!audioRef.current.src) {
-        // Shuffle and set the first track
-        const shuffledFiles = shuffleArray([...audioFiles]);
-        setCurrentTrackIndex(0);
-        audioRef.current.src = shuffledFiles[currentTrackIndex];
+        audioRef.current.src = shuffledAudioFiles[currentTrackIndex];
       }
-      audioRef.current.play();
+      audioRef.current.play().catch(() => { });
       setMusicPlaying(true);
     }
   };
 
-  const playNextTrack = () => {
-    if (audioRef.current) {
-      const nextIndex = (currentTrackIndex + 1) % audioFiles.length;
-      setCurrentTrackIndex(nextIndex);
-      audioRef.current.src = audioFiles[nextIndex];
-      audioRef.current.play();
+  const playNextTrack = useCallback(() => {
+    if (audioRef.current && shuffledAudioFiles.length > 0) {
+      const nextIdx = (currentTrackIndex + 1) % shuffledAudioFiles.length;
+      setCurrentTrackIndex(nextIdx);
+      audioRef.current.src = shuffledAudioFiles[nextIdx];
+      audioRef.current.play().catch(() => { });
     }
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      const elements = document.querySelectorAll('.floating-element');
-      elements.forEach(element => {
-        const speed = element.dataset.speed;
-        const x = (window.innerWidth - event.pageX * speed) / 100;
-        const y = (window.innerHeight - event.pageY * speed) / 100;
-        element.style.transform = `translate(${x}px, ${y}px)`;
-      });
-    };
-
-    const handleScrollAnimations = () => {
-      document.querySelectorAll(`.${styles.scrollAnimation}`).forEach(el => {
-        if (el.getBoundingClientRect().top < window.innerHeight) {
-          el.classList.add(styles.visible);
-        }
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScrollAnimations);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScrollAnimations);
-    };
-  }, []);
+  }, [currentTrackIndex, shuffledAudioFiles]);
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.addEventListener('ended', playNextTrack);
       return () => {
-        if (audioRef.current) {
-          audioRef.current.removeEventListener('ended', playNextTrack);
-        }
+        if (audioRef.current) audioRef.current.removeEventListener('ended', playNextTrack);
       };
     }
-  }, [currentTrackIndex]);
+  }, [playNextTrack]);
 
-  const scrollTo = (position) => {
-    if (position === 'top') {
+  const scrollTo = (pos) => {
+    if (pos === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (position === 'bottom') {
+    } else if (pos === 'bottom') {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   };
@@ -135,68 +125,66 @@ export default function Home() {
     }
   };
 
-  const startTutorial = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: 'Welcome to Word-Pied! Let\'s take a quick tour.',
-          },
-          {
-            element: '.homeTitle',
-            intro: 'This is the home title.',
-          },
-          {
-            element: '.writingBoxesGrid',
-            intro: 'Here are the writing boxes where you can collaborate in real-time.',
-          },
-          {
-            element: '.darkModeToggle',
-            intro: 'Toggle dark mode here.',
-          },
-          {
-            element: '.musicToggle',
-            intro: 'Play or pause background music.',
-          },
-          {
-            element: '.confettiButton',
-            intro: 'Click here to celebrate with confetti!',
-          },
-        ],
-      })
-      .start();
+  const toggleChaos = () => {
+    setChaosMode(!chaosMode);
   };
 
   return (
     <div className={`${styles.homeContainer} ${darkMode ? styles.darkMode : ''}`}>
-      <UserProfile />
-      <audio ref={audioRef} loop>
-        <source src="" type="audio/mpeg" />
-      </audio>
+      <audio ref={audioRef} />
+
+      <GameModal isOpen={showGames} onClose={() => setShowGames(false)} />
 
       <header className={`${styles.header} ${styles.slideIn}`}>
-        <h1 className={`${styles.homeTitle} ${styles.neonText}`}>Word-Pied</h1>
-        <button className={`${styles.darkModeToggle} ${darkMode ? styles.darkMode : ''}`} onClick={toggleDarkMode}>
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
-        </button>
-        <button className={styles.musicToggle} onClick={toggleMusic}>
-          {musicPlaying ? 'Pause Music' : 'Play Music'}
-        </button>
-        <button className={styles.confettiButton} onClick={triggerConfetti}>
-          Celebrate!
-        </button>
-        <button className={styles.confettiButton} onClick={startTutorial}>
-          Start Tutorial
-        </button>
+        <h1 className={`${styles.homeTitle} ${styles.neonText}`}>Word‑Pied</h1>
+
+        <div className={styles.headerControls}>
+          <button className={styles.navButton} onClick={toggleDarkMode}>
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+
+          <button className={styles.navButton} onClick={toggleMusic}>
+            {musicPlaying ? 'Pause Music' : 'Play Music'}
+          </button>
+
+          <button className={styles.navButton} onClick={triggerConfetti}>
+            Celebrate
+          </button>
+
+          <button
+            className={`${styles.navButton} ${chaosMode ? styles.active : ''}`}
+            onClick={toggleChaos}
+          >
+            {chaosMode ? 'Calm Down' : 'Chaos Mode'}
+          </button>
+
+          <button
+            className={styles.navButton}
+            onClick={() => setShowGames(true)}
+          >
+            🎮 Play Games
+          </button>
+        </div>
+
+        <div className="justify-self-end">
+          <UserProfile />
+        </div>
       </header>
-      <p className={`${styles.subtitle} ${styles.slideUp}`}>Write and add links for the world to find!!!</p>
-      <p className={`${styles.subtitle} ${styles.slideUp}`}>Music changes everytime you refresh and you can embed links(Works better on PC)</p>
-      <p className={`${styles.subtitle} ${styles.slideUp}`}>Please let everyone have fun and don't clear others stuff. Thx.</p>
-      <div className={`${styles.writingBoxesGrid} ${styles.borderPulse}`}>
-        {Array.from({ length: 999 }, (_, i) => i).map(boxNumber => (
-          <div className={`${styles.writingBoxContainer} ${styles.swing}`} key={boxNumber}>
-            <span className={styles.boxLabel}>Pied {boxNumber + 1}</span>
-            <WritingBox boxNumber={boxNumber} />
+
+      <p className={`${styles.subtitle} ${styles.slideUp}`} style={{ '--delay': 1 }}>
+        Write and add links for the world to find.
+      </p>
+      <p className={`${styles.subtitle} ${styles.slideUp}`} style={{ '--delay': 2 }}>
+        Music changes every time you refresh and you can embed links.
+      </p>
+      <p className={`${styles.subtitle} ${styles.slideUp}`} style={{ '--delay': 3 }}>
+        Please let everyone have fun and don't clear others stuff.
+      </p>
+
+      <div className={`${styles.writingBoxesGrid} ${chaosMode ? styles.chaosGrid : ''}`}>
+        {Array.from({ length: 1000 }, (_, i) => i).map((boxNumber) => (
+          <div key={boxNumber} className={styles.writingBoxContainer}>
+            <WritingEditor boxNumber={boxNumber} />
           </div>
         ))}
       </div>
@@ -207,6 +195,6 @@ export default function Home() {
       <button className={`${styles.scrollButton} ${styles.scrollToBottom}`} onClick={() => scrollTo('bottom')}>
         ↓
       </button>
-    </div>
+    </div >
   );
 }

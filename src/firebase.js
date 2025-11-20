@@ -2,6 +2,28 @@ import { initializeApp, getApp, getApps } from 'firebase/app';
 import { getDatabase } from 'firebase/database'; // Import for Realtime Database
 import { getStorage } from 'firebase/storage'; // Import for Firebase Storage
 
+// Validate required environment variables
+const requiredEnvVars = [
+  'NEXT_PUBLIC_FIREBASE_API_KEY',
+  'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN',
+  'NEXT_PUBLIC_FIREBASE_DATABASE_URL',
+  'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
+  'NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET',
+  'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID',
+  'NEXT_PUBLIC_FIREBASE_APP_ID',
+];
+
+const missingVars = requiredEnvVars.filter(
+  (varName) => !process.env[varName]
+);
+
+if (missingVars.length > 0) {
+  console.error(
+    `Missing required environment variables: ${missingVars.join(', ')}`
+  );
+  console.error('Please check your .env.local file');
+}
+
 // Your web app's Firebase configuration using environment variables
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,9 +36,9 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase only if it hasn't been initialized already
+// Initialize Firebase only if not already initialized
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const database = getDatabase(app); // Initialize Realtime Database
-export const storage = getStorage(app); // Initialize Firebase Storage
+const database = getDatabase(app);
+const storage = getStorage(app);
 
-export default app;
+export { app, database, storage };

@@ -1,0 +1,30 @@
+{
+    "rules": {
+        ".read": true,
+        ".write": true,
+        "boxes": {
+            "$boxId": {
+                ".validate": "newData.isString() && newData.val().length < 10000"
+            }
+        },
+        "boxMeta": {
+            "$boxId": {
+                ".validate": "newData.hasChildren(['lastEditor', 'lastEditTime'])",
+                "lastEditor": {
+                    ".validate": "newData.isString() && newData.val().length < 50"
+                },
+                "lastEditTime": {
+                    ".validate": "newData.isNumber() || newData.isString()"
+                }
+            }
+        },
+        "users": {
+            "$userId": {
+                ".validate": "newData.hasChildren(['displayName'])",
+                "displayName": {
+                    ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+                }
+            }
+        }
+    }
+}

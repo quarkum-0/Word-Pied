@@ -56,7 +56,7 @@ export const themes = {
     boxShadow: 'shadow-md shadow-indigo-900/50 hover:shadow-lg hover:shadow-indigo-900/60',
     buttonBg: 'bg-purple-500 hover:bg-purple-600',
     buttonText: 'text-white',
-  }
+  },
 };
 
 export function useTheme() {
@@ -68,28 +68,10 @@ export function ThemeProvider({ children }) {
   const [systemTheme, setSystemTheme] = useState(false);
 
   useEffect(() => {
-    // Check if user has a saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark ? 'dark' : 'light');
-      setSystemTheme(true);
-    }
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e) => {
-      if (systemTheme) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [systemTheme]);
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(themes[theme].className);
+  }, [theme]);
 
   const changeTheme = (newTheme) => {
     setTheme(newTheme);

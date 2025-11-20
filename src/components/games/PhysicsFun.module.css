@@ -1,0 +1,222 @@
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+    padding: 1rem;
+}
+
+.gameArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+}
+
+.stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.stat strong {
+    font-size: 1.1rem;
+    color: #fbbf24;
+}
+
+.clearButton {
+    padding: 0.5rem 0.9rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.clearButton:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    max-width: 550px;
+    width: 100%;
+}
+
+.controlGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.controlGroup label {
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.shapeButtons,
+.sizeButtons,
+.modeButtons {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.shapeBtn,
+.sizeBtn,
+.modeBtn {
+    padding: 0.4rem 0.85rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 45px;
+    font-weight: 600;
+}
+
+.shapeBtn:hover,
+.sizeBtn:hover,
+.modeBtn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.shapeBtn.active,
+.sizeBtn.active,
+.modeBtn.active {
+    background: #fbbf24;
+    border-color: #f59e0b;
+    color: #1e293b;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.toggleGroup {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.toggleGroup label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+.slider {
+    width: 130px;
+    height: 5px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    outline: none;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fbbf24;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fbbf24;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+.toggleGroup input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.canvas {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    cursor: crosshair;
+    background: #0f172a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.canvas:active {
+    cursor: grabbing;
+}
+
+.instructions {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    max-width: 550px;
+}
+
+.instructions p {
+    color: white;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.instructions strong {
+    color: #fbbf24;
+}
